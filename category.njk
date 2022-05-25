@@ -1,0 +1,19 @@
+---
+pagination:
+  data: recipes.categories
+  size: 1
+  alias: category
+permalink: "category/{{ category.title | slug }}/"
+title: {{ category.title }}
+layout: base.njk
+tags: category
+eleventyComputed:
+  recipes: {{ data.recipes  }}
+---
+
+<h1>{{ category.title }}</h1>
+<ul>
+{% for recipe in recipes.recipes | include('categories', category.title) %}
+    <li><a href="/recipes/{{ recipe.title | slug }}/">{{ recipe.title }}</a></li>
+{% endfor %}
+</ul>

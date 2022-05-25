@@ -1,0 +1,29 @@
+---
+pagination:
+  data: recipes.recipes
+  size: 1
+  alias: recipe
+permalink: "recipes/{{ recipe.slug }}/"
+title: {{recipe.title}}
+layout: base.njk
+tags: recipe
+---
+<a href="/">&larr; back to all recipes</a>
+<h1>{{ recipe.title }}</h2>
+
+<h2>Ingredients</h2>
+<ul>
+{% for ingredient in recipe.ingredients %}
+  <li>{{ingredient.quantity}} {{ingredient.unit}} {{ ingredient.ingredient }}</li>
+{% endfor %}
+</ul>
+
+<h2>Method</h2>
+<ol>
+{% for step in recipe.steps %}
+  <li>{{ step.text }}</li>
+{% endfor %}
+</ol>
+
+<a href="#top">&uarr; back to top</a><br/>
+<a href="/">&larr; back to all recipes</a>

@@ -1,0 +1,26 @@
+{
+  "name": "recipes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@11ty/eleventy": "^1.0.1",
+    "@cooklang/cooklang-ts": "^1.0.1",
+    "cooklang": "^0.3.0",
+    "fast-glob": "^3.2.11",
+    "fs": "^0.0.1-security",
+    "lodash": "^4.17.21",
+    "node-fetch": "^2",
+    "node-html-parser": "^5.3.3",
+    "recipe-ingredient-parser-v2": "^1.1.1",
+    "slugify": "^1.6.5"
+  },
+  "dependencies": {
+  }
+}

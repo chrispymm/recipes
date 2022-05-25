@@ -1,0 +1,20 @@
+---
+layout: base.njk
+title: Recipes
+---
+<h1>Recipes</h1>
+
+
+<ul>
+{% for recipe in recipes.recipes %}
+    <li><a href="/recipes/{{ recipe.slug }}"/">{{ recipe.title }}</a></li>
+{% endfor %}
+</ul>
+
+<h2>Categories</h2>
+<ul>
+{% for category in recipes.categories %}
+    <li><a href="/category/{{ category.title | slug }}">{{ category.title }}</a></li>
+{% endfor %}
+</ul>
+
