@@ -18,7 +18,12 @@ title: Default Title
        }
     </style>
   </head>
-  <body>
+  <body> 
+<form action="/.netlify/functions/auth-before">
+  <input type="hidden" name="securePath" value="/new/">
+  <button type="submit" name="provider" value="github">Login with GitHub</button>
+</form>
+
     <main id="#top">
     {{ content | safe }}
     </main>

@@ -41,12 +41,23 @@ const getRecipesFromFiles = async () => {
 };
 
 const parseRecipe = async (url) => {
-  return await new Promise( (resolve) => {
-    EleventyFetch(url, {
-      duration: "*",
+  let options = {
+    duration: "*",
       type: "text", 
       removeUrlQueryParams: true,
-    }).then((responseHtml) => {
+
+  };
+
+  if(process.env.ELEVENTY_SERVERLESS) {
+    // Infinite duration (until the next build)
+    options.duration = "*";
+    // Instead of ".cache" default because files/directories
+    // that start with a dot are not bundled by default
+    options.directory = "cache";
+  }
+
+  return await new Promise( (resolve) => {
+    EleventyFetch(url, options).then((responseHtml) => {
   
         const document = parse(responseHtml);
         const structuredData = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));

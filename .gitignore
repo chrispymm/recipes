@@ -1,7 +1,12 @@
 _site/
-node_modules
 
-# Local Netlify folder
+netlify/functions/dynamic/**
+!netlify/functions/dynamic/index.js
+
+node_modules
+package-lock.json
+
+.env
 .netlify
 .cache
 .DS_Store

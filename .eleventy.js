@@ -1,8 +1,14 @@
+const { EleventyServerlessBundlerPlugin } = require("@11ty/eleventy");
 const { Recipe } = require('cooklang');
 const lodash = require('lodash');
 
 
 module.exports = function(eleventyConfig) {
+
+  eleventyConfig.addPlugin(EleventyServerlessBundlerPlugin, {
+    name: "dynamic", // The serverless function name from your permalink object
+    functionsDir: "./netlify/functions/",
+  });
 
   eleventyConfig.addWatchTarget("./recipes/");
 
