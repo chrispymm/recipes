@@ -74,7 +74,7 @@ class Recipe {
     }
 
     fromJson(data) {
-        this.title = data.name;
+        this.title = data.name || '';
         this.slug = this.strToSlug(this.title);
         this.servings = data.recipeYield;
         this.categories = data.recipeCategory.split(',');

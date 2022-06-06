@@ -1,2 +1,7 @@
-.DS_Store
+_site/
 node_modules
+
+# Local Netlify folder
+.netlify
+.cache
+.DS_Store

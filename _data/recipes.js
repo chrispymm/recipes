@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const EleventyFetch = require("@11ty/eleventy-fetch");
 const parse = require('node-html-parser').parse;
 //const CookLangRecipe = require('cooklang').Recipe;
 const CookLangRecipe = require('@cooklang/cooklang-ts').Recipe;
@@ -16,7 +17,6 @@ let urls = [
   'https://www.asaucykitchen.com/low-fodmap-thai-green-curry/',
   'https://www.asaucykitchen.com/sweet-and-sour-chicken-paleo-low-fodmap/',
   'https://alittlebityummy.com/recipe/en-gb/low-fodmap-sweet-sticky-salmon-skewers-2/',
-
 ];
 
 let recipes =[];
@@ -42,8 +42,11 @@ const getRecipesFromFiles = async () => {
 
 const parseRecipe = async (url) => {
   return await new Promise( (resolve) => {
-    fetch(url).then((response) => {
-      response.text().then((responseHtml) => {
+    EleventyFetch(url, {
+      duration: "*",
+      type: "text", 
+      removeUrlQueryParams: true,
+    }).then((responseHtml) => {
   
         const document = parse(responseHtml);
         const structuredData = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
@@ -53,7 +56,6 @@ const parseRecipe = async (url) => {
         // console.log(recipeData);
         resolve( recipeData );
       })
-    })
   }).catch(() => {
     return Promise.resolve([]);
   });
@@ -93,7 +95,6 @@ module.exports = async () => {
   }
 
   categories = extractCategories(recipes);
-  // console.log(recipes);
   return {
     recipes: recipes,
     categories: categories,
