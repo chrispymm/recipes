@@ -8,6 +8,11 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(EleventyServerlessBundlerPlugin, {
     name: "dynamic", // The serverless function name from your permalink object
     functionsDir: "./netlify/functions/",
+    copy: [
+      // files/directories that start with a dot
+      // are not bundled by default
+      { from: ".cache", to: "cache" }
+    ],
   });
 
   eleventyConfig.addWatchTarget("./recipes/");

@@ -19,7 +19,7 @@ class OAuth {
       },
       auth: {
         tokenHost: config.tokenHost,
-        tokenPath: config.tokenPath,
+               tokenPath: config.tokenPath,
         authorizePath: config.authorizePath
       }
     });

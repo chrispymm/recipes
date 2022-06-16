@@ -7,6 +7,7 @@ const { OAuth, tokens, getCookie } = require("../util/auth.js");
 require("./eleventy-bundler-modules.js");
 
 async function handler(event) {
+  const authorizedUsers = process.env.AUTHORIZED_USERS?.split(',');
   let authToken;
   let provider;
   if(event.headers && event.headers.cookie) {
@@ -51,7 +52,7 @@ async function handler(event) {
         redirectTarget = page.data.secure.unauthenticatedRedirect;
       }
 
-      // console.log( "Logging out" );
+      console.log( "Logging out" );
       return {
         statusCode: 302,
         headers: {
@@ -67,12 +68,14 @@ async function handler(event) {
         body: ''
       };
     }
+    
+    console.log({'SECURE': page.data.secure })
 
     // Secure pages
-    if(page.data.secure && authError) {
+    if(page.data.secure?.unauthenticatedRedirect && authError) {
       console.log("[serverless fn]", event.path, authToken, authError );
 
-      // unauthenticated redirect
+      // unauthenticated
       return {
         statusCode: 302,
         headers: {
@@ -81,6 +84,20 @@ async function handler(event) {
         },
         body: ''
       };
+    }
+    
+    // unauthorized
+    if(user && page.data.secure?.authorizeUsers) {
+      if( !authorizedUsers.includes(user.login)) {
+        return {
+          statusCode: 302,
+          headers: {
+            Location: page.data.secure.unauthenticatedRedirect || "/",
+            'Cache-Control': 'no-cache' // Disable caching of this response
+          },
+          body: ''
+        };
+      }
     }
 
     return {

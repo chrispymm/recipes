@@ -6,22 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[object Object]</title>
     <style>
-       main {
+       header {
+         display: flex;
+         gap: 1rem;
+        justify-content: flex-end;
+        align-items: center;
+       }
+       .max-w-prose {
          max-width: 56ch;
-         margin: 0 auto; 
+       }
+       .centered {
+        margin-left: auto;
+        margin-right: auto;
        }
        ol li + li {
          margin-top: 1rem;
        }
+       nav ul { list-style-type: none; display: flex; gap: 1rem; }
     </style>
   </head>
+ 
   <body> 
-<form action="/.netlify/functions/auth-before">
-  <input type="hidden" name="securePath" value="/new/">
-  <button type="submit" name="provider" value="github">Login with GitHub</button>
-</form>
+    <header>
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/new/">+ Add New Recipe</a></li>
+    </ul>
+  </nav>
+  
+    <form action="/.netlify/functions/auth-before">
+      <input type="hidden" name="securePath" value="/new/">
+      <button type="submit" name="provider" value="github">Login with GitHub</button>
+    </form>
+  
+</header>
 
-    <main id="#top">
+    
+    <main id="#top" class="max-w-prose centered">
     
 <h1>cakes</h1>
 <ul>

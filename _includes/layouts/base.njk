@@ -1,0 +1,15 @@
+---
+title: Default Title
+---
+
+<!doctype html>
+<html lang="en">
+  {% include 'partials/head.njk' %} 
+  <body> 
+    {% include 'partials/header.njk' %}
+    
+    <main id="#top" class="max-w-prose centered">
+    {{ content | safe }}
+    </main>
+  </body>
+</html>

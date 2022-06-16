@@ -1,20 +1,33 @@
 ---
 title: Add new recipe
+layout: layouts/form
 permalink:
   dynamic: "/new/"
 secure:
-  unauthenticatedRedirect: "/"
+  authorizeUsers: true
 ---
 
 {% if user %}
-You are logged in!
-<form action="{{ page.url }}" method="get">
-  <input type="hidden" name="logout" value="">
-  <button type="submit">Logout</button>
+<form action="/.netlify/functions/new-recipe">
+    <label for="title">Title</label><br />
+    <input type="text" name="title" id="title" style="width: 99vw; border 1px solid #ccc"/><br />
+    <label for="content">Recipe</label>
+    <textarea id="content" name="content" style="width: 99vw; height: 80vh; border: 1px solid #ccc">
+>> serves:
+>> source:
+>> image: 
+    </textarea>
+
+  <p>
+    <button type="submit">Submit</button>
+  </p>
 </form>
 {% else %}
+<p>You must login to view this page</p>
+<p>
 <form action="/.netlify/functions/auth-before">
   <input type="hidden" name="securePath" value="/new/">
   <button type="submit" name="provider" value="github">Login with GitHub</button>
 </form>
+</p>
 {% endif %}

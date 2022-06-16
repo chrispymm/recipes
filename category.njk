@@ -5,7 +5,7 @@ pagination:
   alias: category
 permalink: "category/{{ category.title | slug }}/"
 title: {{ category.title }}
-layout: base.njk
+layout: layouts/base
 tags: category
 eleventyComputed:
   recipes: {{ data.recipes  }}

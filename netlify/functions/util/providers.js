@@ -23,6 +23,8 @@ const github = {
 
   /* User API endpoint */
   userApi: "https://api.github.com/user",
+
+  scope: "repo"
 };
 
 // https://docs.gitlab.com/ee/api/oauth2.html

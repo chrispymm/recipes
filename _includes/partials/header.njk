@@ -1,0 +1,19 @@
+<header>
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/new/">+ Add New Recipe</a></li>
+    </ul>
+  </nav>
+  {% if user %}
+    <form action="{{ page.url }}" method="get">
+      <input type="hidden" name="logout" value="">
+      <button type="submit">Logout</button>
+    </form>
+  {% else %}
+    <form action="/.netlify/functions/auth-before">
+      <input type="hidden" name="securePath" value="/new/">
+      <button type="submit" name="provider" value="github">Login with GitHub</button>
+    </form>
+  {% endif %}
+</header>
