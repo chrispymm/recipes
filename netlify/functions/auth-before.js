@@ -1,3 +1,4 @@
+const { watch } = require("fs");
 const { OAuth, getCookie, generateCsrfToken } = require("./util/auth.js");
 const providers = require('./util/providers.js');
 

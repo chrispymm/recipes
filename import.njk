@@ -1,0 +1,68 @@
+---
+layout: layouts/form
+title: Import a Recipe
+permalink:
+  dynamic: "/import/"
+secure: 
+  authorizedUsers: true
+---
+
+{% if user %}
+  <form action="/.netlify/functions/import-recipe" data-action="import">
+      <label for="url">URL</label><br />
+      <input type="text" name="url" id="url" style="width: 99vw; border 1px solid #ccc"/><br />
+      <input type="hidden" name="data" value="" />
+      <div id="result"></div>
+    <p>
+      <button type="submit">Submit</button>
+    </p>
+  </form>
+
+  <script type="module">
+
+    const form = document.querySelector('form[data-action="import"]');
+
+    const fetchRecipe = function(event) {
+      event.preventDefault();
+      console.log('time to go fetch the recipe');
+
+      const url = form.querySelector('input[name="url"]').value;
+      const resultField = form.querySelector('input[name="data"]');
+      const resultContainer = form.querySelector('#result');
+
+      fetch(url)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${ response.status }`);
+          }
+          return response.text()
+        })
+        .then((text) => { 
+          const parser = new DOMParser;
+          const document = parser.parseFromString(text, "text/html");
+          console.log(document);
+          const structuredData = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
+          const structuredDataJson = structuredData.map((node) => JSON.parse(node.innerHTML)).flat();
+          // Look for a Recipe schema and return its ingredients if it exists     
+          const recipeData = structuredDataJson.find((schema) => schema["@type"] == "Recipe")
+
+          return(recipeData)
+        })
+        .then((recipeData) => {
+            resultField.value = JSON.stringify(recipeData);
+            resultContainer.innerHTML = JSON.stringify(recipeData);
+        })
+    } 
+
+    form.addEventListener('submit', fetchRecipe );
+  </script>
+
+{% else %}
+<p>You must login to import recipes</p>
+<p>
+<form action="/.netlify/functions/auth-before">
+  <input type="hidden" name="securePath" value="/import/">
+  <button type="submit" name="provider" value="github">Login with GitHub</button>
+</form>
+</p>
+{% endif %}

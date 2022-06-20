@@ -17,6 +17,7 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addWatchTarget("./recipes/");
 
+  eleventyConfig.addPassthroughCopy("assets/");
   // eleventyConfig.addCollection("categories", function(collectionApi) {
   //   let recipeTemplate = collectionApi.getFilteredByTag('recipe')[0];
   //   let recipes =  recipeTemplate.data.recipes;
