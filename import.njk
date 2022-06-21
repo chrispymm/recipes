@@ -30,7 +30,9 @@ secure:
       const resultField = form.querySelector('input[name="data"]');
       const resultContainer = form.querySelector('#result');
 
-      fetch(url)
+      fetch(url, {
+        method: 'GET',
+      })
         .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${ response.status }`);

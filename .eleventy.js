@@ -18,23 +18,27 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addWatchTarget("./recipes/");
 
   eleventyConfig.addPassthroughCopy("assets/");
-  // eleventyConfig.addCollection("categories", function(collectionApi) {
-  //   let recipeTemplate = collectionApi.getFilteredByTag('recipe')[0];
-  //   let recipes =  recipeTemplate.data.recipes;
+  eleventyConfig.addCollection("categories", function(collectionApi) {
+    let recipes = collectionApi.getFilteredByTag('recipes');
+    //console.log(recipes);
+    let allCategories = recipes.map((recipe) => recipe.data.categories ); 
 
-  //   let allCategories = recipes.map((recipe) => recipe.categories ); 
+    allCategories = lodash.flattenDeep(allCategories)
+                          .map((item) => item.toLowerCase().trim());
+    console.log(allCategories);
+    categories = [...new Set(allCategories)].map((category) => ({ title: category }));
+    console.log(categories)
+    return categories;
+  });
 
-  //   allCategories = lodash.flattenDeep(allCategories)
-  //                         .map((item) => item.toLowerCase().trim());
-  //   categories = [...new Set(allCategories)].map((category) => ({ title: category }));
-
-  //   return categories;
-  // });
 
   eleventyConfig.addFilter("include", function(arr, path, value) {
     value = lodash.deburr(value).toLowerCase();
     return arr.filter((item) => {
-      let pathValue = lodash.get(item, path);
+      let pathValue = lodash.get(item, path); 
+      if(!pathValue) {
+        return false;
+      }
       pathValue = lodash.deburr(pathValue).toLowerCase();
       return pathValue.includes(value);
     }); 

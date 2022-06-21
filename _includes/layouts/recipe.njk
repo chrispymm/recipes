@@ -1,0 +1,20 @@
+---
+layout: layouts/base
+---
+<h1>{{ title }}</h2>
+<h2>Ingredients</h2>
+<ul>
+{% for ingredient in ingredients %}
+  <li>{{ingredient}}</li>
+{% endfor %}
+</ul>
+
+<h2>Method</h2>
+<ol>
+{% for step in steps %}
+  <li>{{ step }}</li>
+{% endfor %}
+</ol>
+
+<a href="#top">&uarr; back to top</a><br/>
+<a href="/">&larr; back to all recipes</a>

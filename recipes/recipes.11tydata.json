@@ -1,0 +1,5 @@
+{
+  "layout": "layouts/recipe",
+  "tags": "recipes",
+  "permalink": "/recipes/{{ title | slugify }}/"
+}
