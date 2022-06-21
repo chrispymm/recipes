@@ -27,8 +27,10 @@
     "@staticman/netlify-functions": "^1.7.1",
     "cookie": "^0.5.0",
     "dotenv": "^16.0.1",
+    "format-quantity": "^1.1.0",
     "netlify-plugin-cache": "^1.0.3",
     "nodejs-base64": "^2.0.0",
+    "parse-ingredient": "^0.5.0",
     "simple-oauth2": "^4.3.0"
   }
 }

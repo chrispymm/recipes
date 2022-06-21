@@ -1,11 +1,19 @@
----
+--
 layout: layouts/base
 ---
 <h1>{{ title }}</h2>
 <h2>Ingredients</h2>
 <ul>
 {% for ingredient in ingredients %}
-  <li>{{ingredient}}</li>
+  {% set ingredientData = ingredient | parseIngredient %}
+  <li>
+    <span>{{ ingredientData.quantity | fractionize }}<span>
+    {% if ingredientData.quantity2 %}
+      - <span>{{ ingredientData.quantity2 | fractionize }}
+    {% endif %}
+    <span>{{ ingredientData.unitOfMeasure }}</span> 
+    <span>{{ ingredientData.description }}
+  </li>
 {% endfor %}
 </ul>
 

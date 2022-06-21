@@ -1,7 +1,7 @@
 const { EleventyServerlessBundlerPlugin } = require("@11ty/eleventy");
-const { Recipe } = require('cooklang');
 const lodash = require('lodash');
-
+const { parseIngredient } = require('parse-ingredient');
+const { formatQuantity } = require('format-quantity');
 
 module.exports = function(eleventyConfig) {
 
@@ -25,9 +25,7 @@ module.exports = function(eleventyConfig) {
 
     allCategories = lodash.flattenDeep(allCategories)
                           .map((item) => item.toLowerCase().trim());
-    console.log(allCategories);
     categories = [...new Set(allCategories)].map((category) => ({ title: category }));
-    console.log(categories)
     return categories;
   });
 
@@ -43,6 +41,14 @@ module.exports = function(eleventyConfig) {
       return pathValue.includes(value);
     }); 
   });
+
+  eleventyConfig.addFilter("parseIngredient", function(value) {
+    return parseIngredient(value)?.shift();
+  });
+
+  eleventyConfig.addFilter("fractionize", function(value, vulgar = true) {
+    return formatQuantity(value, vulgar);
+  })
 
   return {
     dir: {
