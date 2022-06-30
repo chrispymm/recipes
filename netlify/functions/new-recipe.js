@@ -2,6 +2,7 @@ const GithubApi = require('@octokit/rest');
 const { Octokit } = require("@octokit/core");
 const cookie = require("cookie");
 const { tokens, getCookie } = require("./util/auth.js");
+const querystring = require('querystring');
 const { base64encode } = require('nodejs-base64');
 
 exports.handler = async (event, context) => {
@@ -27,21 +28,24 @@ exports.handler = async (event, context) => {
           timeout: 5000
         }
       });
-
-    const title = event.queryStringParameters.title;
-    const metadataTitle = `>> title: ${title} \r\n`;
-    const content = base64encode( metadataTitle + event.queryStringParameters.content );
-    const path = `recipes/${title.replace(' ', '-')}.cook`
+    
+    let formData = querystring.decode(event.body)
+    const title = formData.title;
+    const metadataTitle = `title: ${title}`;
+    const content = formData.content;
+    const lines = content.split('\r\n');
+    lines.splice(1, 0, metadataTitle);
+    const newContent =  lines.join('\r\n');
+    const path = `recipes/${title.replace(/\s/g, '-').toLowerCase}.njk`
 
     const response = await github.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner: owner,
       repo: repo,
       path: path,
       message: `Add recipe: ${title}`,
-      content: content
+      content: base64encode(newContent),
     });
   
-    console.log(response);
     if(response.status < 300) {
       return {
         statusCode: 200,

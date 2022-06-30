@@ -8,10 +8,17 @@ secure:
 ---
 
 {% if user %}
-  <form action="/.netlify/functions/import-recipe" data-action="import">
+  <form action="/.netlify/functions/new-recipe" data-action="import" method="POST">
+    <div class="field-group">
       <label for="url">URL</label><br />
       <input type="text" name="url" id="url" style="width: 99vw; border 1px solid #ccc"/><br />
-      <textarea type="hidden" name="data" style="width: 99vw; height: 80vh; border: 1px solid #ccc"></textarea>
+    </div>
+    <div class="field-group" hidden>
+    <label for="title">Title</label><br />
+    <input type="text" name="title" id="title" style="width: 99vw; border 1px solid #ccc"/><br />
+    <label for="content">Recipe</label>
+    <textarea id="content" name="content" style="width: 99vw; height: 80vh; border: 1px solid #ccc"></textarea>
+    </div>
     <p>
       <button type="submit">Submit</button>
     </p>
@@ -26,9 +33,10 @@ secure:
       event.preventDefault();
       console.log('time to go fetch the recipe');
 
-      const url = form.querySelector('input[name="url"]').value;
-      const resultField = form.querySelector('textarea[name="data"]');
-
+      const urlField = form.querySelector('input[name="url"]');
+      const titleField = form.querySelector('input[name="title"]');
+      const resultField = form.querySelector('textarea[name="content"]');
+      const url = urlField.value;
       fetch(url, {
         method: 'GET',
       })
@@ -50,8 +58,18 @@ secure:
           return(recipeData)
         })
         .then((recipeData) => {
-            const recipeText = new Recipe().fromJson(recipeData).toYaml();
+            const title = recipeData.name;
+            const recipeText = new Recipe().fromJson(recipeData)
+                                           .setProperty('source', url)
+                                           .toYaml();
+            titleField.value = title;
             resultField.value = recipeText;
+            
+            urlField.closest('.field-group').setAttribute('hidden', '');
+            resultField.closest('.field-group').removeAttribute('hidden');
+            
+
+            form.removeEventListener('submit', fetchRecipe);
         })
     } 
 

@@ -8,14 +8,25 @@ secure:
 ---
 
 {% if user %}
-<form action="/.netlify/functions/new-recipe">
+<form action="/.netlify/functions/new-recipe" method="POST">
     <label for="title">Title</label><br />
     <input type="text" name="title" id="title" style="width: 99vw; border 1px solid #ccc"/><br />
     <label for="content">Recipe</label>
     <textarea id="content" name="content" style="width: 99vw; height: 80vh; border: 1px solid #ccc">
->> serves:
->> source:
->> image: 
+---
+categories: 
+  - 
+times:
+  prep: 
+  cook: 
+  total: 
+serves: 
+ingredients: 
+  - 
+steps: 
+  - 
+source: 
+---
     </textarea>
 
   <p>
