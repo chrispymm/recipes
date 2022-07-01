@@ -5,15 +5,15 @@ title: Recipes
 <h1>Recipes</h1>
 
 <ul>
-{% for recipe in recipes.recipes %}
-    <li><a href="/recipes/{{ recipe.slug }}"/">{{ recipe.title }}</a></li>
+{% for recipe in collections.recipes %}
+    <li><a href="/recipes/{{ recipe.data.title | slugify }}"/">{{ recipe.data.title }}</a></li>
 {% endfor %}
 </ul>
 
 <h2>Categories</h2>
 <ul>
-{% for category in recipes.categories %}
-    <li><a href="/category/{{ category.title | slug }}">{{ category.title }}</a></li>
+{% for category in collections.categories %}
+    <li><a href="/category/{{ category.title | slugify }}">{{ category.title }}</a></li>
 {% endfor %}
 </ul>
 

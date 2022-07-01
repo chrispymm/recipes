@@ -1,7 +1,7 @@
 const { EleventyServerlessBundlerPlugin } = require("@11ty/eleventy");
-const { Recipe } = require('cooklang');
 const lodash = require('lodash');
-
+const { parseIngredient } = require('parse-ingredient');
+const { formatQuantity } = require('format-quantity');
 
 module.exports = function(eleventyConfig) {
 
@@ -18,27 +18,37 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addWatchTarget("./recipes/");
 
   eleventyConfig.addPassthroughCopy("assets/");
-  // eleventyConfig.addCollection("categories", function(collectionApi) {
-  //   let recipeTemplate = collectionApi.getFilteredByTag('recipe')[0];
-  //   let recipes =  recipeTemplate.data.recipes;
+  eleventyConfig.addCollection("categories", function(collectionApi) {
+    let recipes = collectionApi.getFilteredByTag('recipes');
+    //console.log(recipes);
+    let allCategories = recipes.map((recipe) => recipe.data.categories ); 
 
-  //   let allCategories = recipes.map((recipe) => recipe.categories ); 
+    allCategories = lodash.flattenDeep(allCategories)
+                          .map((item) => item.toLowerCase().trim());
+    categories = [...new Set(allCategories)].map((category) => ({ title: category }));
+    return categories;
+  });
 
-  //   allCategories = lodash.flattenDeep(allCategories)
-  //                         .map((item) => item.toLowerCase().trim());
-  //   categories = [...new Set(allCategories)].map((category) => ({ title: category }));
-
-  //   return categories;
-  // });
 
   eleventyConfig.addFilter("include", function(arr, path, value) {
     value = lodash.deburr(value).toLowerCase();
     return arr.filter((item) => {
-      let pathValue = lodash.get(item, path);
+      let pathValue = lodash.get(item, path); 
+      if(!pathValue) {
+        return false;
+      }
       pathValue = lodash.deburr(pathValue).toLowerCase();
       return pathValue.includes(value);
     }); 
   });
+
+  eleventyConfig.addFilter("parseIngredient", function(value) {
+    return parseIngredient(value)?.shift();
+  });
+
+  eleventyConfig.addFilter("fractionize", function(value, vulgar = true) {
+    return formatQuantity(value, vulgar);
+  })
 
   return {
     dir: {

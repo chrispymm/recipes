@@ -1,19 +1,16 @@
 ---
 pagination:
-  data: recipes.categories
+  data: collections.categories
   size: 1
   alias: category
-permalink: "category/{{ category.title | slug }}/"
+permalink: "category/{{ category.title | slugify }}/"
 title: {{ category.title }}
 layout: layouts/base
-tags: category
-eleventyComputed:
-  recipes: {{ data.recipes  }}
 ---
 
 <h1>{{ category.title }}</h1>
 <ul>
-{% for recipe in recipes.recipes | include('categories', category.title) %}
-    <li><a href="/recipes/{{ recipe.title | slug }}/">{{ recipe.title }}</a></li>
+{% for recipe in collections.recipes | include('data.categories', category.title) %}
+    <li><a href="/recipes/{{ recipe.data.title | slugify }}/">{{ recipe.data.title }}</a></li>
 {% endfor %}
 </ul>
