@@ -36,7 +36,7 @@ exports.handler = async (event, context) => {
     const lines = content.split('\r\n');
     lines.splice(1, 0, metadataTitle);
     const newContent =  lines.join('\r\n');
-    const path = `recipes/${title.replace(/\s/g, '-').toLowerCase}.njk`
+    const path = `recipes/${title.replace(/\s/g, '-').toLowerCase()}.njk`
 
     const response = await github.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner: owner,
